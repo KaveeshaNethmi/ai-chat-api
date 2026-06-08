@@ -17,3 +17,23 @@ export const generateResponse = async (messages) => {
     usage: response.usage,
   };
 };
+
+// Generate title of the chat
+export const generateTitle = async (message) => {
+  const response = await openai.chat.completions.create({
+    model: "gpt-4.1-mini",
+    messages: [
+      {
+        role: "system",
+        content:
+          "Generate a short conversation title (max 5-7 words). No quotes",
+      },
+      {
+        role: "user",
+        content: message,
+      },
+    ],
+  });
+
+  return response.choices[0].message.content;
+};
