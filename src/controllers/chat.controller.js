@@ -1,4 +1,4 @@
-import { chatWithAI } from "../services/chat.service.js";
+import { chatWithAI, streamChatWithAI } from "../services/chat.service.js";
 
 export const chatController = async (req, res, next) => {
   try {
@@ -14,3 +14,41 @@ export const chatController = async (req, res, next) => {
     next(error);
   }
 };
+
+
+export const streamChatController =
+  async (req, res) => {
+    try {
+      res.setHeader(
+        "Content-Type",
+        "text/event-stream"
+      );
+
+      res.setHeader(
+        "Cache-Control",
+        "no-cache"
+      );
+
+      res.setHeader(
+        "Connection",
+        "keep-alive"
+      );
+
+      await streamChatWithAI({
+        conversationId:
+          req.body.conversationId,
+        userId:
+          req.user._id,
+        userMessage:
+          req.body.message,
+        res,
+      });
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).json({
+        message:
+          error.message,
+      });
+    }
+  };

@@ -18,6 +18,17 @@ export const generateResponse = async (messages) => {
   };
 };
 
+// OpeneAI service with streaming -> creting a seperate service 
+export const generateStreamingResponse = async (
+  messages
+) => {
+  return await openai.chat.completions.create({
+    model: "gpt-4.1-mini",
+    messages,
+    stream: true,
+  });
+};
+
 // Generate title of the chat
 export const generateTitle = async (message) => {
   const response = await openai.chat.completions.create({
