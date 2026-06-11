@@ -2,7 +2,6 @@ import { chatWithAI, streamChatWithAI } from "../services/chat.service.js";
 
 export const chatController = async (req, res, next) => {
   try {
-    console.log(req.body);
     const result = await chatWithAI({
       conversationId: req.body.conversationId,
       userId: req.user._id,
@@ -44,8 +43,6 @@ export const streamChatController =
         res,
       });
     } catch (error) {
-      console.error(error);
-
       res.status(500).json({
         message:
           error.message,

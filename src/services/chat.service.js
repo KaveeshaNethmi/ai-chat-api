@@ -38,8 +38,6 @@ const invalidateConversationCache = async (conversationId) => {
 
 // Main Chat API service
 export const chatWithAI = async ({ conversationId, userId, userMessage }) => {
-  console.log("conversationId in service", conversationId);
-
   const conversation = await Conversation.findOne({
     _id: conversationId,
     userId,
@@ -62,9 +60,6 @@ export const chatWithAI = async ({ conversationId, userId, userMessage }) => {
   // 3. Generate title only once
   if (conversation.title === "New Chat") {
     const title = await generateTitle(userMessage);
-
-    console.log("Generated title:", title);
-
     await Conversation.findByIdAndUpdate(conversationId, { title });
   }
 
